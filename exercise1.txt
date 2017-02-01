@@ -48,7 +48,7 @@ WHERE (Ticket.Cost>4000) AND (Ticket.Number<200);
 SELECT ' Query 6 ';
 SELECT DISTINCT Name
 FROM Airline
-INNER JOIN Flight ON (Airline.Abbreviation=FLight.Airline)
+INNER JOIN Flight ON (Airline.Abbreviation=Flight.Airline)
 INNER JOIN Airport ON (Flight.Destination=Airport.Code)
 WHERE (Airport.Country='France') OR (Airport.Country='Germany'); 
 
@@ -73,16 +73,26 @@ WHERE (Airport.City='Berlin');
 -- Find the names of those airlines with either the string “Air” or else the string “Luft”
 -- (both case insensitive) in their names.
 SELECT ' Query 8 ';
-SELECT
+SELECT DISTINCT Name
+FROM Airline
+WHERE UPPER(Name) LIKE UPPER ('%air%') OR UPPER(Name) LIKE UPPER('%luft%');
 
 -- Reduce the price of all tickets issued by Scandinavian airlines for the interval 2016-11-01
 -- to 2016-11-20 inclusive by 20%. (Note: You may use the code “SK” in your query. It is
 -- not necessary to pattern match on “Scandinavian”)
 SELECT ' Query 9 ';
-SELECT
+UPDATE Ticket
+SET Cost = Cost * 1.2
+WHERE (Airline = 'SK') AND (Date >= '2016-11-01' OR Date <= '2016-11-20');
 
 -- Find the flights for the airline with code SK which are scheduled on 2016-11-12 with a
 -- departure time before noon (12:00). In addition to the flight number, give the airport
 -- codes for both the origin and the destination.
 SELECT ' Query 10 ';
-SELECT
+SELECT DISTINCT F.FlightNumber, Origin, Destination
+FROM Flight AS F
+INNER JOIN Schedule AS S ON ((F.Airline=S.Airline)
+AND (F.FlightNumber=S.FlightNumber))
+WHERE (F.Airline='SK')
+AND S.Date='2016-11-12'
+AND S.DepartureTime < '12:00';

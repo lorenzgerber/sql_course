@@ -1,13 +1,27 @@
 -- 1. Find the airport with the greatest latitude.
 -- In the case of a tie, list all such airports.
 SELECT ' Query 1 ';
+SELECT City 
+FROM Airport
+WHERE Latitude IN (
+      SELECT MAX(Latitude)
+      FROM Airport);
 
 
 -- 2. Find the names of those airlines which do not
 -- have flights which depart from an airport in Germany.
 -- (This includes airlines which do not have any flights at all.)
 SELECT ' Query 2 ';
-
+SELECT DISTINCT Name
+FROM Airline
+LEFT JOIN Flight ON (Abbreviation=Airline)
+LEFT JOIN Airport ON (Origin=Code)
+WHERE Name NOT IN (
+      SELECT Name
+      FROM Airline
+      JOIN Flight ON (Abbreviation=Airline)
+      JOIN Airport ON (Origin=Code)
+      WHERE (Country = 'Germany'));
 
 
 -- 3. Find the names of those airlines which have a
@@ -15,6 +29,13 @@ SELECT ' Query 2 ';
 -- airport of some flight of Lufthansa. (The query must use the
 -- string ’Lufthansa’ and not the airline abbreviation LH.)
 SELECT ' Query 3 ';
+SELECT DISTINCT Name
+FROM Airline
+JOIN Flight ON (Abreviation=Airline)
+JOIN Airport ON (Origin=Code)
+WHERE 
+
+
 
 -- 4. Find the names of those airports, all of whose departures
 -- are international, in the precise sense that the destination

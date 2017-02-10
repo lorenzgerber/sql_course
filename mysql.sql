@@ -87,8 +87,7 @@ SELECT ' Query 6 ';
 SELECT Code, City, Country, COUNT(Distinct Destination) AS "No of Destinations"  
 FROM Airport
 LEFT OUTER JOIN Flight ON (Code = Origin)
-GROUP BY Code
-ORDER BY Count(Distinct Destination) DESC, Code ASC;
+GROUP BY Code;
 
 -- 7. For each country found in the Airport relation of the database,
 -- find the maximum, minimum, and average latitude over all airports which are
@@ -108,7 +107,7 @@ GROUP BY Country;
 -- one originating flight.) In case of a tie, list all such airports.
 -- Give the number of destinations for that airport as well.
 SELECT ' Query 8 ';
-SELECT Code, City, Country, Count(Distinct Destination) AS "Number of Destinations"
+SELECT Code, City, Country
 FROM Airport
 JOIN Flight ON (Code=Origin)
 GROUP BY Code

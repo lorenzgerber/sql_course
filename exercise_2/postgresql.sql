@@ -73,7 +73,7 @@ WHERE NOT EXISTS (
 	       	(SELECT Origin
 		FROM Flight
 		JOIN Airport ON (Code=Origin)
-		WHERE (Latitude < 54) AND (Country = "Germany") OR (Origin = "BER")
+		WHERE (Latitude < 54) AND (Country = 'Germany') OR (Origin = 'BER')
 		)
 		);
 
@@ -123,12 +123,12 @@ GROUP BY Code));
 -- with no ticket sales and order from highest to lowest. (Hint: The
 -- SQL directive ORDER BY n will order the result based upon the nth column.)
 SELECT ' Query 9 ';
-SELECT Name, SUM(Cost)
+SELECT Name, SUM(Cost) AS "Ticket Sales in Nov 2016"
 FROM Airline
 JOIN Ticket ON (Abbreviation=Airline)
 NATURAL JOIN Schedule
-WHERE (Date > "2016-10-31") AND (Date < "2016-12-01") 
-GROUP BY Airline;
+WHERE (Date > '2016-10-31') AND (Date < '2016-12-01') 
+GROUP BY Name;
 
 -- 10. Find the codes of those airports which are the origin for
 -- flights to at least three distinct airports in France.
@@ -136,7 +136,7 @@ SELECT ' Query 10 ';
 SELECT Origin, Count(Distinct Destination) AS "Destinations in France"
 FROM Flight
 JOIN Airport ON (Destination=Code)
-AND (Country = "France")
+AND (Country = 'France')
 GROUP BY Origin
 HAVING (Count(Distinct Destination) >= 3);
 

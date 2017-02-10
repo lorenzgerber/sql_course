@@ -73,7 +73,7 @@ WHERE NOT EXISTS (
 	       	(SELECT Origin
 		FROM Flight
 		JOIN Airport ON (Code=Origin)
-		WHERE (Latitude < 54) AND (Country = "Germany") OR (Origin = "BER")
+		WHERE (Latitude < 54) AND (Country = 'Germany') OR (Origin = 'BER')
 		)
 		);
 
@@ -108,7 +108,7 @@ GROUP BY Country;
 -- one originating flight.) In case of a tie, list all such airports.
 -- Give the number of destinations for that airport as well.
 SELECT ' Query 8 ';
-SELECT Code, City, Country, Count(Distinct Destination) AS "Number of Destinations"
+SELECT Code, City, Country
 FROM Airport
 JOIN Flight ON (Code=Origin)
 GROUP BY Code

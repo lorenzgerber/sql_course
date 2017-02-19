@@ -1,0 +1,119 @@
+\documentclass[a4paper,11pt,twoside]{article}
+%\documentclass[a4paper,11pt,twoside,se]{article}
+
+\usepackage{UmUStudentReport}
+\usepackage{verbatim}   % Multi-line comments using \begin{comment}
+\usepackage{courier}    % Nicer fonts are used. (not necessary)
+\usepackage{pslatex}    % Also nicer fonts. (not necessary)
+\usepackage[pdftex]{graphicx}   % allows including pdf figures
+\usepackage{listings}
+\usepackage{pgf-umlcd}
+\usepackage{blindtext}
+\usepackage{enumitem}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+%\usepackage{mathtools}
+
+%\usepackage{lmodern}   % Optional fonts. (not necessary)
+%\usepackage{tabularx}
+%\usepackage{microtype} % Provides some typographic improvements over default settings
+%\usepackage{placeins}  % For aligning images with \FloatBarrier
+%\usepackage{booktabs}  % For nice-looking tables
+%\usepackage{titlesec}  % More granular control of sections.
+
+% DOCUMENT INFO
+% =============
+\department{Department of Computing Science}
+\coursename{Parallel Programming 7.5 p}
+\coursecode{5DV152}
+\title{Exercises, Chapter/Topic 1}
+\author{Lorenz Gerber ({\tt{dv15lgr@cs.umu.se}} {\tt{lozger03@student.umu.se}})}
+\date{2017-02-21}
+%\revisiondate{2016-01-18}
+\instructor{Jan Erik Moström / Michael Minnert}
+
+
+% DOCUMENT SETTINGS
+% =================
+\bibliographystyle{plain}
+%\bibliographystyle{ieee}
+\pagestyle{fancy}
+\raggedbottom
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+%\graphicspath{{images/}}   %Path for images
+
+\usepackage{float}
+\floatstyle{ruled}
+\newfloat{listing}{thp}{lop}
+\floatname{listing}{Listing}
+
+
+
+% DEFINES
+% =======
+%\newcommand{\mycommand}{<latex code>}
+%\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+
+% DOCUMENT
+% ========
+\begin{document}
+\lstset{language=C}
+\maketitle
+\thispagestyle{empty}
+\newpage
+\tableofcontents
+\thispagestyle{empty}
+\newpage
+
+\clearpage
+\pagenumbering{arabic}
+
+\section{Query 1}
+Find the code of each airport which is located either in Greece or else in Germany
+\subsubsection*{Relational Algebra}
+$X_1 \leftarrow \sigma_{(Country = `Germany') \land (Country = `France')}(Airport)$\\
+$X_2 \leftarrow \pi_{(Code)}(X_1)$\\
+
+\subsubsection*{Relational Tuple Calculus}
+$\{a.Code|Airport(a)$\\
+$\land((a.Country = `Germany`) \lor (a.Country = `France`))\}$
+
+\section{Query 2}
+Find the name and abbreviation of each airline which has a flight with destination the airport with the code `TXL' but no flight with destination the airport with code `SXF'
+\subsubsection*{Relational Algebra}
+$X_1 \leftarrow \pi_{Airline}(\sigma_{Destination=`TXL'}(Flight))$\\
+$X_2 \leftarrow \pi_{Airline}(\sigma_{Destination=`SXF'}(Flight))$\\
+$X_5 \leftarrow X_1 \backslash X_2$\\
+$X_6 \leftarrow X_5 \Join_{Airline=Abbreviation} Airline$\\
+$X_7 \leftarrow \pi_{Name, Abbreviation}(X_6)$\\
+
+\subsubsection*{Relational Tuple Calculus}
+$\{a.Name, a.Abbreviation|Airline(a)$\\
+$\land \}$
+
+
+\section{Query 3}
+Find the name and abbreviation of those airlines which do not have any flights to an airport in Germany or France
+ 
+\section{Relational Algebra}
+
+\section{Relational Tuple Calculus}
+
+\section{Query 4}
+Find the codes of those airports which have flights to every airport in France. (Note that no French airport will normally qualify because, for example, there is no flight from `CDG' to `CDG'.)
+\section{Relational Algebra}
+
+\section{Relational Tuple Calculus}
+
+\section{Query 5}
+Find the codes of those airports which have departures (i.e. fligths with origin at that airport) for exactly two distinct airines.
+\section{Relational Algebra}
+
+\section{Relational Tuple Calculus}
+
+
+\addcontentsline{toc}{section}{\refname}
+\bibliography{references}
+
+\end{document}

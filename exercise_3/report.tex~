@@ -99,11 +99,19 @@ $\land (f_2.Destination \neq `SXF\textrm'))\}$\\
 Find the name and abbreviation of those airlines which do not have any flights to an airport in Germany or France
  
 \section{Relational Algebra}
+$X_1 \leftarrow Flight \Join _{(Destination = Code)} Airport$\\
+$X_2 \leftarrow \sigma_{(Country = France) \lor (Country = Germany}(X_1)$\\
+$X_3 \leftarrow \pi_{Airline}(X_2)$\\
+$X_4 \leftarrow \pi_{Abbreviation}(Airline)$\\
+$X_5 \leftarrow X_4 \backslash X_3$\\
+$X_6 \leftarrow X_5 \Join _{X_5.Abbreviation=Airline.Abbreviation} Airline$\\
+$X_7 \leftarrow \pi_{Abbreviation, Name}(X_6)$\\
+
 
 
 \section{Relational Tuple Calculus}
 $\{a.Name, a.Abbreviation|Airline(a)$\\
-$ \land (\forall f)((flight(f)$\\
+$ \land (\forall f)((Flight(f)$\\
 $ \land (a.Abbreviation = f.Airline))$\\
 $ \Rightarrow (\forall ap)(Airport(ap) \land (ap.Code = f.Destination)$\\
 $ \land ((ap.Country \neq `Germany\textrm')$\\
@@ -116,11 +124,26 @@ Find the codes of those airports which have flights to every airport in France. 
 \section{Relational Tuple Calculus}
 
 \section{Query 5}
-Find the codes of those airports which have departures (i.e. fligths with origin at that airport) for exactly two distinct airines.
+Find the codes of those airports which have departures (i.e. fligths with origin at that airport) for exactly two distinct airlines.
 \section{Relational Algebra}
+$X_1 \leftarrow \sigma _{F_1}(Flight)$\\
+$X_2 \leftarrow \sigma _{F_2}(Flight)$\\
+$X_3 \leftarrow X_1 \Join _{F_1.Airline \neq Airline) \land (F_1.Origin=Origin)} Flight$\\
+$X_4 \leftarrow X_2 \Join _{F_2.Airline \neq Airline) \land (F_2.Origin=Origin)} X_3$\\
+$X_5 \leftarrow X_3 backslash X_4$\\
+$X_6 \leftarrow \pi_{(Origin)} X_5$\\
+
+
 
 \section{Relational Tuple Calculus}
-
+$\{a.Code|Airport (a)$\\
+$\land (\exists F_1)(\exists F_2)((Flight(F_1) \land Flight(F_2)$\\
+$ \land (F_1.Origin = a.Code)$\\
+$ \land (F_1.Origin = F_2.Origin))$\\
+$ \land (F_1.Airline \neq F_2.Airline))$\\ 
+$ \land  (\forall F_1)(\forall F_2)(\forall F_3)(Flight(F_1) \land Flight(F_2) \land Flight(F_3)$\\
+$ \land (F_1.Origin = F_2.Origin) \land (F_1.Origin = F_3.Origin) \land (F_1.Origin = a.Code))$\\
+$ \Rightarrow ((F_1.Airline = F_2.Airline) \lor (F_1.Airline = F_3.Airline) \lor (F_2.Airline = F_3.Airline))\}$\\
 
 \addcontentsline{toc}{section}{\refname}
 \bibliography{references}

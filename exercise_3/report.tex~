@@ -99,14 +99,6 @@ $\land (f_2.Destination \neq `SXF\textrm'))\}$\\
 Find the name and abbreviation of those airlines which do not have any flights to an airport in Germany or France
  
 \section{Relational Algebra}
-$X_1 \leftarrow Flight \Join _{(Destination = Code)} Airport$\\
-$X_2 \leftarrow \sigma_{(Country = France) \lor (Country = Germany}(X_1)$\\
-$X_3 \leftarrow \pi_{Airline}(X_2)$\\
-$X_4 \leftarrow \pi_{Abbreviation}(Airline)$\\
-$X_5 \leftarrow X_4 \backslash X_3$\\
-$X_6 \leftarrow \sigma_{X_5.Abbreviation=Airline.Abbreviation}(Airline)$\\
-$X_7 \leftarrow \pi_{Abbreviation, Name}(X_6)$\\
-
 
 
 \section{Relational Tuple Calculus}

@@ -1,9 +1,9 @@
 \contentsline {section}{\numberline {1}Query 1}{1}{section.1}
 \contentsline {section}{\numberline {2}Query 2}{1}{section.2}
 \contentsline {section}{\numberline {3}Query 3}{1}{section.3}
-\contentsline {section}{\numberline {4}Relational Algebra}{1}{section.4}
-\contentsline {section}{\numberline {5}Relational Tuple Calculus}{1}{section.5}
-\contentsline {section}{\numberline {6}Query 4}{1}{section.6}
+\contentsline {section}{\numberline {4}Relational Algebra}{2}{section.4}
+\contentsline {section}{\numberline {5}Relational Tuple Calculus}{2}{section.5}
+\contentsline {section}{\numberline {6}Query 4}{2}{section.6}
 \contentsline {section}{\numberline {7}Relational Algebra}{2}{section.7}
 \contentsline {section}{\numberline {8}Relational Tuple Calculus}{2}{section.8}
 \contentsline {section}{\numberline {9}Query 5}{2}{section.9}

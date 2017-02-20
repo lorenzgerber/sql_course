@@ -72,25 +72,28 @@
 \section{Query 1}
 Find the code of each airport which is located either in Greece or else in Germany
 \subsubsection*{Relational Algebra}
-$X_1 \leftarrow \sigma_{(Country = `Germany') \land (Country = `France')}(Airport)$\\
+$X_1 \leftarrow \sigma_{(Country = `Germany\textrm') \land (Country = `France\textrm')}(Airport)$\\
 $X_2 \leftarrow \pi_{(Code)}(X_1)$\\
 
 \subsubsection*{Relational Tuple Calculus}
 $\{a.Code|Airport(a)$\\
-$\land((a.Country = `Germany`) \lor (a.Country = `France`))\}$
+$\land((a.Country = `Germany\textrm') \lor (a.Country = `France\textrm'))\}$
 
 \section{Query 2}
 Find the name and abbreviation of each airline which has a flight with destination the airport with the code `TXL' but no flight with destination the airport with code `SXF'
 \subsubsection*{Relational Algebra}
-$X_1 \leftarrow \pi_{Airline}(\sigma_{Destination=`TXL'}(Flight))$\\
-$X_2 \leftarrow \pi_{Airline}(\sigma_{Destination=`SXF'}(Flight))$\\
+$X_1 \leftarrow \pi_{Airline}(\sigma_{Destination=`TXL\textrm'}(Flight))$\\
+$X_2 \leftarrow \pi_{Airline}(\sigma_{Destination=`SXF\textrm'}(Flight))$\\
 $X_5 \leftarrow X_1 \backslash X_2$\\
 $X_6 \leftarrow X_5 \Join_{Airline=Abbreviation} Airline$\\
 $X_7 \leftarrow \pi_{Name, Abbreviation}(X_6)$\\
 
 \subsubsection*{Relational Tuple Calculus}
 $\{a.Name, a.Abbreviation|Airline(a)$\\
-$\land \}$
+$\land (\exists f_1)(\forall f_2)(Flights(f_1) \land Flights(f_2)$\\
+$\land (f_1.Airline = a.Abbreviation) \land (f_2.Airline = a.Abbreviation)$\\
+$\land (f_1.Destination = `TXL\textrm')$\\
+$\land (f.Destination \neq `SXF\textrm'))\}$\\
 
 
 \section{Query 3}

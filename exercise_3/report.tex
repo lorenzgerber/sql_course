@@ -24,13 +24,13 @@
 % DOCUMENT INFO
 % =============
 \department{Department of Computing Science}
-\coursename{Parallel Programming 7.5 p}
-\coursecode{5DV152}
-\title{Exercises, Chapter/Topic 1}
+\coursename{Introduction to Database Managment 7.5 p}
+\coursecode{5DV119}
+\title{Exercises, Chapter/Topic 3}
 \author{Lorenz Gerber ({\tt{dv15lgr@cs.umu.se}} {\tt{lozger03@student.umu.se}})}
 \date{2017-02-21}
 %\revisiondate{2016-01-18}
-\instructor{Jan Erik Moström / Michael Minnert}
+\instructor{Jan Erik Moström / Michael Minock / Filip Allberg / Carl-Anton Anserud}
 
 
 % DOCUMENT SETTINGS
@@ -69,7 +69,7 @@
 \clearpage
 \pagenumbering{arabic}
 
-\section{Query 1}
+\section*{Query 1}
 Find the code of each airport which is located either in Greece or else in Germany
 \subsubsection*{Relational Algebra}
 $X_1 \leftarrow \sigma_{(Country = `Germany\textrm') \land (Country = `Greece\textrm')}(Airport)$\\
@@ -79,12 +79,14 @@ $X_2 \leftarrow \pi_{(Code)}(X_1)$\\
 $\{a.Code|Airport(a)$\\
 $\land((a.Country = `Germany\textrm') \lor (a.Country = `Greece\textrm'))\}$
 
-\section{Query 2}
+\section*{Query 2}
 Find the name and abbreviation of each airline which has a flight with destination the airport with the code `TXL' but no flight with destination the airport with code `SXF'
 \subsubsection*{Relational Algebra}
-$X_1 \leftarrow \pi_{Airline}(\sigma_{Destination=`TXL\textrm'}(Flight))$\\
-$X_2 \leftarrow \pi_{Airline}(\sigma_{Destination=`SXF\textrm'}(Flight))$\\
-$X_5 \leftarrow X_1 \backslash X_2$\\
+$X_1 \leftarrow \sigma_{Destination=`TXL\textrm'}(Flight)$\\
+$X_2 \leftarrow \sigma_{Destination=`SXF\textrm'}(Flight)$\\
+$X_3 \leftarrow \pi_{(Airline)}(X_1)$
+$X_4 \leftarrow \pi_{(Airline)}(X_2)$
+$X_5 \leftarrow X_3 \backslash X_4$\\
 $X_6 \leftarrow X_5 \Join_{Airline=Abbreviation} Airline$\\
 $X_7 \leftarrow \pi_{Name, Abbreviation}(X_6)$\\
 
@@ -95,10 +97,10 @@ $\land (f_1.Airline = a.Abbreviation) \land (f_2.Airline = a.Abbreviation)$\\
 $\land (f_1.Destination = `TXL\textrm')$\\
 $\land (f_2.Destination \neq `SXF\textrm'))\}$\\
 
-\section{Query 3}
+\section*{Query 3}
 Find the name and abbreviation of those airlines which do not have any flights to an airport in Germany or France
  
-\section{Relational Algebra}
+\subsubsection*{Relational Algebra}
 $X_1 \leftarrow Flight \Join _{(Destination = Code)} Airport$\\
 $X_2 \leftarrow \sigma_{(Country = France) \lor (Country = Germany}(X_1)$\\
 $X_3 \leftarrow \pi_{Airline}(X_2)$\\
@@ -109,7 +111,7 @@ $X_7 \leftarrow \pi_{Abbreviation, Name}(X_6)$\\
 
 
 
-\section{Relational Tuple Calculus}
+\subsubsection*{Relational Tuple Calculus}
 $\{a.Name, a.Abbreviation|Airline(a)$\\
 $ \land (\forall f)((Flight(f)$\\
 $ \land (a.Abbreviation = f.Airline))$\\
@@ -117,10 +119,10 @@ $ \Rightarrow (\forall ap)(Airport(ap) \land (ap.Code = f.Destination)$\\
 $ \land ((ap.Country \neq `Germany\textrm')$\\
 $ \lor (ap.Country \neq `France\textrm'))))\}$\\
 
-\section{Query 4}
+\section*{Query 4}
 Find the codes of those airports which have flights to every airport in France. (Note that no French airport will normally qualify because, for example, there is no flight from `CDG' to `CDG'.)
 
-\section{Relational Algebra}
+\subsubsection*{Relational Algebra}
 $X_1 \leftarrow Airport \Join_ {(Code=Destination)} Flight$\\
 $X_2 \leftarrow \sigma _{(Country=`France\textrm')} (X_1)$\\
 $X_3 \leftarrow \pi_{(Origin, Destination)}(X_2)$\\
@@ -130,23 +132,26 @@ $X_6 \leftarrow \pi_{(Code)}(X_4)$\\
 $X_7 \leftarrow X_5 \times X_6$\\
 $X_8 \leftarrow X_7 \backslash X_3$\\
 $X_9 \leftarrow \pi_{(Origin)}(X_8)$\\
-$X_10 \leftarrow X_5 \backslash X_9$\\
+$X_{10} \leftarrow X_5 \backslash X_9$\\
 
-\section{Relational Tuple Calculus}
+\subsubsection*{Relational Tuple Calculus}
+$\{a.Code|Airport(a) \land ((\forall ap)(\neg Airport(ap)) \lor \neg(ap.Country = `France\textrm')$\\
+$\lor ((\exists f)(Flight(f) \land (f.Origin = a.Code) \land (f.Destination = ap.Code))))\}$
 
-\section{Query 5}
+
+\section*{Query 5}
 Find the codes of those airports which have departures (i.e. fligths with origin at that airport) for exactly two distinct airlines.
-\section{Relational Algebra}
+\subsubsection*{Relational Algebra}
 $X_1 \leftarrow \sigma _{F_1}(Flight)$\\
 $X_2 \leftarrow \sigma _{F_2}(Flight)$\\
 $X_3 \leftarrow X_1 \Join _{F_1.Airline \neq Airline) \land (F_1.Origin=Origin)} Flight$\\
 $X_4 \leftarrow X_2 \Join _{F_2.Airline \neq Airline) \land (F_2.Origin=Origin)} X_3$\\
-$X_5 \leftarrow X_3 backslash X_4$\\
+$X_5 \leftarrow X_3 \backslash X_4$\\
 $X_6 \leftarrow \pi_{(Origin)} X_5$\\
 
 
 
-\section{Relational Tuple Calculus}
+\subsubsection*{Relational Tuple Calculus}
 $\{a.Code|Airport (a)$\\
 $\land (\exists F_1)(\exists F_2)((Flight(F_1) \land Flight(F_2)$\\
 $ \land (F_1.Origin = a.Code)$\\
@@ -157,6 +162,6 @@ $ \land (F_1.Origin = F_2.Origin) \land (F_1.Origin = F_3.Origin) \land (F_1.Ori
 $ \Rightarrow ((F_1.Airline = F_2.Airline) \lor (F_1.Airline = F_3.Airline) \lor (F_2.Airline = F_3.Airline))\}$\\
 
 \addcontentsline{toc}{section}{\refname}
-\bibliography{references}
+%\bibliography{references}
 
 \end{document}

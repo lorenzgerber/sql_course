@@ -76,7 +76,7 @@
 
 \section{Mapping Step by Step}
 
-\section{Final Results}
+\subsection*{Mapping of Regular Entity Types}
 
 \begin{tikzpicture}[relation/.style={rectangle split,
       rectangle split parts=#1,
@@ -133,6 +133,594 @@
   };
 
 \end{tikzpicture}
+
+\subsection*{Step 2: Mapping of Weak Entity Types}
+
+\begin{tikzpicture}[relation/.style={rectangle split,
+      rectangle split parts=#1,
+      rectangle split part align=base,
+      draw,
+      anchor=center,
+      align=center,
+      text height=3mm,
+      text centered}]
+  \hspace*{-0.3cm}
+
+  % RELATIONS
+
+  \node (citytitle) {\textbf{CITY}};
+
+  \node[relation=2,
+    rectangle split horizontal,
+    rectangle split part fill={lightgray!50},
+    anchor=north west,
+    below=0.6cm of citytitle.west,
+    anchor=west](city) {
+    \underline{C\_name}
+    \nodepart{two} S\_abbr
+  };
+
+\end{tikzpicture}
+
+\subsection*{Step 3: Mapping of Binary 1:1 Relationship Types}
+
+\begin{tikzpicture}[relation/.style={rectangle split, 
+      rectangle split parts=#1, 
+      rectangle split part align=base, 
+      draw, 
+      anchor=center, 
+      align=center, 
+      text height=3mm, 
+      text centered}]
+  \hspace*{-0.3cm}
+
+% RELATIONS
+
+  \node (branchtitle) {\textbf{BRANCH}};
+
+
+  \node [relation=3, 
+    rectangle split horizontal, 
+    rectangle split part fill={lightgray!50}, 
+    anchor=north west, 
+    below=0.6cm of branchtitle.west, 
+    anchor=west] (branch){ 
+    \underline{B\_number}%
+    \nodepart{two}   MGR\_id
+    \nodepart{three} MGR\_start\_date
+  };
+
+  \node [below=1.3cm of branch.west, 
+    anchor=west] (employeetitle) {\textbf{EMPLOYEE}
+  };
+
+  \node [relation=2, 
+    rectangle split horizontal, 
+    rectangle split part fill={lightgray!50}, 
+    below=0.6cm of employeetitle.west, anchor=west] (employee) {
+    \underline{E\_id}%
+    \nodepart{two} E\_name
+  };
+
+  % FOREIGN KEYS
+
+  \draw[-latex] (branch.three south) -- ++(0,-0.2) 
+  -| ($(branch.three south) + (0,0)$) 
+  |- ($(employee.one south) + (0,-0.20)$) 
+  -| ($(employee.one south) + (0,0)$);
+
+\end{tikzpicture}
+
+
+
+
+\begin{tikzpicture}[relation/.style={rectangle split, 
+      rectangle split parts=#1, 
+      rectangle split part align=base, 
+      draw, 
+      anchor=center, 
+      align=center, 
+      text height=3mm, 
+      text centered}]
+  \hspace*{-0.3cm}
+
+
+  \node (statetitle) {\textbf{STATE}};
+
+  \node [relation=3, 
+    rectangle split horizontal, 
+    rectangle split part fill={lightgray!50}, 
+    anchor=north west, 
+    below=0.6cm of statetitle.west, 
+    anchor=west] (state) {
+    \underline{S\_name}%
+    \nodepart{two}   S\_abbr
+    \nodepart{three} Capital
+};
+
+  \node [below=1.4cm of state.west, 
+    anchor=west] (citytitle) {\textbf{CITY}};
+
+  \node [relation=3, 
+    rectangle split horizontal, 
+    rectangle split part fill={lightgray!50}, 
+    anchor=north west, 
+    below=0.6cm of citytitle.west, 
+    anchor=west] (city){
+    \underline{C\_name}%
+    \nodepart{two}   S\_abbr
+    \nodepart{three} Pop
+  };
+
+% FOREIGN KEYS
+
+  \draw[-latex] (state.three south) -- ++(0,-0.2) 
+  -| ($(state.three south) + (0.6,-0.4)$) 
+  |- ($(city.one south) + (0,-0.2)$) 
+  -| ($(city.one south) + (0,0)$);
+
+\end{tikzpicture}
+
+
+
+
+\subsection*{Step 4: Mapping of Binary 1:N Relationship Types}
+
+\begin{tikzpicture}[relation/.style={rectangle split, 
+      rectangle split parts=#1, 
+      rectangle split part align=base, 
+      draw, 
+      anchor=center, 
+      align=center, 
+      text height=3mm, 
+      text centered}]
+  \hspace*{-0.3cm}
+
+% RELATIONS
+
+  \node (branchtitle) {\textbf{BRANCH}};
+
+  \node [relation=5, 
+    rectangle split horizontal, 
+    rectangle split part fill={lightgray!50}, 
+    anchor=north west, 
+    below=0.6cm of branchtitle.west, 
+    anchor=west] (branch){ 
+    \underline{B\_number}%
+    \nodepart{two}   MGR\_id
+    \nodepart{three} MGR\_start\_date
+    \nodepart{four} C\_name
+    \nodepart{five} S\_abbr
+  };
+
+  \node [below=1.4cm of branch.west, 
+    anchor=west] (citytitle) {\textbf{CITY}};
+
+  \node [relation=3, 
+    rectangle split horizontal, 
+    rectangle split part fill={lightgray!50}, 
+    anchor=north west, 
+    below=0.6cm of citytitle.west, 
+    anchor=west] (city){
+    \underline{C\_name}%
+    \nodepart{two}   S\_abbr
+    \nodepart{three} Pop
+  };
+
+  % FOREIGN KEYS
+
+  \draw[-latex] (branch.four south) -- ++(0,-0.2) 
+  -| ($(branch.four south) + (0.0,-0.4)$) 
+  |- ($(city.one south) + (1.0,-0.2)$) 
+  -| ($(city.one south) + (0,0)$);
+
+  \draw[-latex] (branch.five south) -- ++(0,-0.2) 
+  -| ($(branch.five south) + (0.0,-0.4)$) 
+  |- ($(city.two south) + (1.0,-0.4)$) 
+  -| ($(city.two south) + (0,0)$);
+
+\end{tikzpicture}
+
+
+
+
+
+\begin{tikzpicture}[relation/.style={rectangle split, 
+      rectangle split parts=#1, 
+      rectangle split part align=base, 
+      draw, 
+      anchor=center, 
+      align=center, 
+      text height=3mm, 
+      text centered}]
+  \hspace*{-0.3cm}
+
+
+  \node (employeetitle) {\textbf{EMPLOYEE}};
+
+  \node [relation=4, 
+    rectangle split horizontal, 
+    rectangle split part fill={lightgray!50}, 
+    below=0.6cm of employeetitle.west, anchor=west] (employee) {
+    \underline{E\_id}%
+    \nodepart{two} E\_name
+    \nodepart{three} C\_name
+    \nodepart{four} S\_abbr
+  };
+
+  \node [below=1.4cm of employee.west, 
+    anchor=west] (citytitle) {\textbf{CITY}};
+
+  \node [relation=3, 
+    rectangle split horizontal, 
+    rectangle split part fill={lightgray!50}, 
+    anchor=north west, 
+    below=0.6cm of citytitle.west, 
+    anchor=west] (city){
+    \underline{C\_name}%
+    \nodepart{two}   S\_abbr
+    \nodepart{three} Pop
+  };
+  
+  % FOREIGN KEYS
+
+  \draw[-latex] (employee.three south) -- ++(0,-0.2) 
+  -| ($(employee.three south) + (1.0,-0.4)$) 
+  |- ($(city.one south) + (1.0,-0.2)$) 
+  -| ($(city.one south) + (0,0)$);
+
+  \draw[-latex] (employee.four south) -- ++(0,-0.2) 
+  -| ($(employee.four south) + (0.0,-0.4)$) 
+  |- ($(city.two south) + (1.0,-0.4)$) 
+  -| ($(city.two south) + (0,0)$);
+
+
+\end{tikzpicture}
+
+
+
+
+\begin{tikzpicture}[relation/.style={rectangle split, 
+      rectangle split parts=#1, 
+      rectangle split part align=base, 
+      draw, 
+      anchor=center, 
+      align=center, 
+      text height=3mm, 
+      text centered}]
+  \hspace*{-0.3cm}
+
+  \node (citytitle) {\textbf{CITY}};
+
+  \node [relation=3, 
+    rectangle split horizontal, 
+    rectangle split part fill={lightgray!50}, 
+    anchor=north west, 
+    below=0.6cm of citytitle.west, 
+    anchor=west] (city){
+    \underline{C\_name}%
+    \nodepart{two}   S\_abbr
+    \nodepart{three} Pop
+  };
+
+
+  \node [below=1.4cm of city.west, 
+    anchor=west](statetitle) {\textbf{STATE}};
+
+  \node [relation=3, 
+    rectangle split horizontal, 
+    rectangle split part fill={lightgray!50}, 
+    anchor=north west, 
+    below=0.6cm of statetitle.west, 
+    anchor=west] (state) {
+    \underline{S\_name}%
+    \nodepart{two}   S\_abbr
+    \nodepart{three} Capital
+  };
+
+
+
+% FOREIGN KEYS
+
+  \draw[-latex] (city.two south) -- ++(0,-0.2) 
+  -| ($(city.two south) + (2.5,-0.4)$) 
+  |- ($(state.two south) + (1.0,-0.2)$) 
+  -| ($(state.two south) + (0,0)$);
+
+\end{tikzpicture}
+
+
+
+\subsection*{Step 5: Mapping of Binary M:N Relationship Types}
+
+\begin{tikzpicture}[relation/.style={rectangle split, 
+      rectangle split parts=#1, 
+      rectangle split part align=base, 
+      draw, 
+      anchor=center, 
+      align=center, 
+      text height=3mm, 
+      text centered}]
+  \hspace*{-0.3cm}
+
+  % RELATIONS
+
+  \node (worksattitle) {\textbf{WORKS\_AT}};
+
+  \node [relation=3, 
+    rectangle split horizontal, 
+    rectangle split part fill={lightgray!50}, 
+    anchor=north west, 
+    below=0.6cm of worksattitle.west, 
+    anchor=west] (worksat){ 
+    \underline{B\_number}%
+    \nodepart{two}   E\_id
+    \nodepart{three} Work\_start\_date
+  };
+
+  \node [below=1.3cm of worksat.west, 
+    anchor=west] (branchtitle) {\textbf{BRANCH}};
+
+
+  \node [relation=5, 
+    rectangle split horizontal, 
+    rectangle split part fill={lightgray!50}, 
+    anchor=north west, 
+    below=0.6cm of branchtitle.west, 
+    anchor=west] (branch){ 
+    \underline{B\_number}%
+    \nodepart{two}   MGR\_id
+    \nodepart{three} MGR\_start\_date
+    \nodepart{four} C\_name
+    \nodepart{five} S\_abbr
+  };
+
+
+
+  \node [below=1.3cm of branch.west, 
+    anchor=west] (employeetitle) {\textbf{EMPLOYEE}
+  };
+
+  \node [relation=2, 
+    rectangle split horizontal, 
+    rectangle split part fill={lightgray!50}, 
+    below=0.6cm of employeetitle.west, anchor=west] (employee) {
+    \underline{E\_id}%
+    \nodepart{two} E\_name
+  };
+
+  % FOREIGN KEYS
+
+  \draw[-latex] (worksat.one south) -- ++(0.0,-0.4) 
+  -| ($(worksat.one south) + (9,-0.40)$) 
+  |- ($(employee.one south) + (0,-0.20)$) 
+  -| ($(employee.one south) + (0,0)$);
+
+  \draw[-latex] (worksat.two south) -- ++(0.0,-0.2) 
+  -| ($(worksat.two south) + (9,-0.40)$) 
+  |- ($(branch.one south) + (0,-0.20)$) 
+  -| ($(branch.one south) + (0,0)$);
+
+  
+\end{tikzpicture}
+
+
+
+\subsection*{Step 6: Mapping of Multivalued Attributes}
+
+\begin{tikzpicture}[relation/.style={rectangle split, 
+      rectangle split parts=#1, 
+      rectangle split part align=base, 
+      draw, 
+      anchor=center, 
+      align=center, 
+      text height=3mm, 
+      text centered}]
+  \hspace*{-0.3cm}
+
+  % RELATIONS
+
+  \node (servicetitle) {\textbf{SERVICE}};
+
+  \node [relation=2, 
+    rectangle split horizontal, 
+    rectangle split part fill={lightgray!50}, 
+    anchor=north west, 
+    below=0.6cm of servicetitle.west, 
+    anchor=west] (service){ 
+    \underline{B\_service}%
+    \nodepart{two}   B\_number
+  };
+
+  \node [below=1.3cm of service.west, 
+    anchor=west] (branchtitle) {\textbf{BRANCH}};
+
+  \node [relation=5, 
+    rectangle split horizontal, 
+    rectangle split part fill={lightgray!50}, 
+    anchor=north west, 
+    below=0.6cm of branchtitle.west, 
+    anchor=west] (branch){ 
+    \underline{B\_number}%
+    \nodepart{two}   MGR\_id
+    \nodepart{three} MGR\_start\_date
+    \nodepart{four} C\_name
+    \nodepart{five} S\_abbr
+  };
+
+    
+  \draw[-latex] (service.two south) -- ++(0.0,-0.2) 
+  -| ($(service.two south) + (7,-0.40)$) 
+  |- ($(branch.one south) + (0,-0.20)$) 
+  -| ($(branch.one south) + (0,0)$);
+
+\end{tikzpicture}
+
+
+\subsection*{Step 7: Mapping of N-ary Relationship Types}
+
+
+
+\section{Final Results}
+
+\begin{tikzpicture}[relation/.style={rectangle split, 
+      rectangle split parts=#1, 
+      rectangle split part align=base, 
+      draw, 
+      anchor=center, 
+      align=center, 
+      text height=3mm, 
+      text centered}]
+  \hspace*{-0.3cm}
+
+
+  \node (branchtitle) {\textbf{BRANCH}};
+
+  \node [relation=5, 
+    rectangle split horizontal, 
+    rectangle split part fill={lightgray!50}, 
+    anchor=north west, 
+    below=0.6cm of branchtitle.west, 
+    anchor=west] (branch){ 
+    \underline{B\_number}%
+    \nodepart{two}   MGR\_id
+    \nodepart{three} MGR\_start\_date
+    \nodepart{four} C\_name
+    \nodepart{five} S\_abbr
+  };
+
+
+  \node [below=1.3cm of branch.west, 
+    anchor=west] (servicetitle) {\textbf{SERVICE}};
+
+  \node [relation=2, 
+    rectangle split horizontal, 
+    rectangle split part fill={lightgray!50}, 
+    anchor=north west, 
+    below=0.6cm of servicetitle.west, 
+    anchor=west] (service){ 
+    \underline{B\_service}%
+    \nodepart{two}   B\_number
+  };
+
+  
+  \node [below=1.3cm of service.west, 
+    anchor=west] (worksattitle) {\textbf{WORKS\_AT}};
+
+  \node [relation=3, 
+    rectangle split horizontal, 
+    rectangle split part fill={lightgray!50}, 
+    anchor=north west, 
+    below=0.6cm of worksattitle.west, 
+    anchor=west] (worksat){ 
+    \underline{B\_number}%
+    \nodepart{two}   E\_id
+    \nodepart{three} Work\_start\_date
+  };
+
+
+  \node [below=1.3cm of worksat.west, 
+    anchor=west] (employeetitle) {\textbf{EMPLOYEE}
+  };
+
+  \node [relation=4, 
+    rectangle split horizontal, 
+    rectangle split part fill={lightgray!50}, 
+    below=0.6cm of employeetitle.west, anchor=west] (employee) {
+    \underline{E\_id}%
+    \nodepart{two} E\_name
+    \nodepart{three} C\_name
+    \nodepart{four} S\_abbr
+  };
+
+
+  \node [below=1.3cm of employee.west, 
+    anchor=west] (statetitle) {\textbf{STATE}};
+
+  \node [relation=3, 
+    rectangle split horizontal, 
+    rectangle split part fill={lightgray!50}, 
+    anchor=north west, 
+    below=0.6cm of statetitle.west, 
+    anchor=west] (state) {
+    \underline{S\_name}%
+    \nodepart{two}   S\_abbr
+    \nodepart{three} Capital
+};
+
+  \node [below=1.4cm of state.west, 
+    anchor=west] (citytitle) {\textbf{CITY}};
+
+  \node [relation=3, 
+    rectangle split horizontal, 
+    rectangle split part fill={lightgray!50}, 
+    anchor=north west, 
+    below=0.6cm of citytitle.west, 
+    anchor=west] (city){
+    \underline{C\_name}%
+    \nodepart{two}   S\_abbr
+    \nodepart{three} Pop
+  };
+
+  \draw[-latex] (branch.two south) -- ++(0.0,-0.2) 
+  -| ($(branch.two south) + (4,-0.40)$) 
+  |- ($(employee.one south) + (0,-0.20)$) 
+  -| ($(employee.one south) + (0,0)$);
+
+  \draw[-latex] (branch.four south) -- ++(0.0,-0.3) 
+  -| ($(branch.four south) + (0,-0.40)$) 
+  |- ($(city.one south) + (0,-0.20)$) 
+  -| ($(city.one south) + (0,0)$);
+
+  \draw[-latex] (branch.five south) -- ++(0.0,-0.4) 
+  -| ($(branch.five south) + (0,-0.40)$) 
+  |- ($(city.two south) + (0.25,-0.40)$) 
+  -| ($(city.two south) + (0.25,0)$);
+
+  \draw[-latex] (worksat.one south) -- ++(0.0,-0.2) 
+  -| ($(worksat.one south) + (6,+0.40)$) 
+  |- ($(branch.one south) + (0,-0.40)$) 
+  -| ($(branch.one south) + (0,0)$);
+
+    \draw[-latex] (worksat.two south) -- ++(0.0,-0.4) 
+  -| ($(worksat.two south) + (6,-0.40)$) 
+  |- ($(employee.one south) + (0,-0.40)$) 
+  -| ($(employee.one south) + (-0.25,0)$);
+
+
+  \draw[-latex] (service.two south) -- ++(0.0,-0.2) 
+  -| ($(service.two south) + (2,+0.40)$) 
+  |- ($(branch.one south) + (0,-0.60)$) 
+  -| ($(branch.one south) + (-0.25,0)$);
+
+  \draw[-latex] (employee.three south) -- ++(0.0,-0.8) 
+  -| ($(employee.three south) + (2,-0.80)$) 
+  |- ($(city.one south) + (0,-0.60)$) 
+  -| ($(city.one south) + (-0.25,0)$);
+
+  \draw[-latex] (employee.four south) -- ++(0.0,-0.6) 
+  -| ($(employee.four south) + (0,-0.40)$) 
+  |- ($(city.two south) + (0,-0.80)$) 
+  -| ($(city.two south) + (-0.25,0)$);
+
+  \draw[-latex] (city.two south) -- ++(0,-1.2) 
+  -| ($(city.two south) + (4.0,-1.2)$) 
+  |- ($(state.two south) + (4.0,-0.2)$) 
+  -| ($(state.two south) + (0.25,0)$);
+
+  \draw[-latex] (state.three south) -- ++(0.0,-0.4) 
+  -| ($(state.three south) + (2,-0.4)$) 
+  |- ($(city.one south) + (0.25,-1.0)$) 
+  -| ($(city.one south) + (0.25,0)$);
+
+
+
+
+
+\end{tikzpicture}
+
+
+
 
 
 

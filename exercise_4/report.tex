@@ -128,8 +128,8 @@
     anchor=north west,
     below=0.6cm of statetitle.west,
     anchor=west] (state) {
-    \underline{S\_name}%
-    \nodepart{two}   S\_abbr
+    S\_name%
+    \nodepart{two}   \underline{S\_abbr}
   };
 
 \end{tikzpicture}
@@ -150,14 +150,15 @@
 
   \node (citytitle) {\textbf{CITY}};
 
-  \node[relation=2,
+  \node[relation=3,
     rectangle split horizontal,
     rectangle split part fill={lightgray!50},
     anchor=north west,
     below=0.6cm of citytitle.west,
     anchor=west](city) {
     \underline{C\_name}
-    \nodepart{two} S\_abbr
+    \nodepart{two} \underline{S\_abbr}
+    \nodepart{three} Pop
   };
 
 \end{tikzpicture}
@@ -204,8 +205,8 @@
 
   % FOREIGN KEYS
 
-  \draw[-latex] (branch.three south) -- ++(0,-0.2) 
-  -| ($(branch.three south) + (0,0)$) 
+  \draw[-latex] (branch.two south) -- ++(0,-0.2) 
+  -| ($(branch.two south) + (0,0)$) 
   |- ($(employee.one south) + (0,-0.20)$) 
   -| ($(employee.one south) + (0,0)$);
 
@@ -233,8 +234,8 @@
     anchor=north west, 
     below=0.6cm of statetitle.west, 
     anchor=west] (state) {
-    \underline{S\_name}%
-    \nodepart{two}   S\_abbr
+    S\_name%
+    \nodepart{two}   \underline{S\_abbr}
     \nodepart{three} Capital
 };
 
@@ -248,7 +249,7 @@
     below=0.6cm of citytitle.west, 
     anchor=west] (city){
     \underline{C\_name}%
-    \nodepart{two}   S\_abbr
+    \nodepart{two}   \underline{S\_abbr}
     \nodepart{three} Pop
   };
 
@@ -303,7 +304,7 @@
     below=0.6cm of citytitle.west, 
     anchor=west] (city){
     \underline{C\_name}%
-    \nodepart{two}   S\_abbr
+    \nodepart{two}   \underline{S\_abbr}
     \nodepart{three} Pop
   };
 
@@ -358,7 +359,7 @@
     below=0.6cm of citytitle.west, 
     anchor=west] (city){
     \underline{C\_name}%
-    \nodepart{two}   S\_abbr
+    \nodepart{two}   \underline{S\_abbr}
     \nodepart{three} Pop
   };
   
@@ -399,7 +400,7 @@
     below=0.6cm of citytitle.west, 
     anchor=west] (city){
     \underline{C\_name}%
-    \nodepart{two}   S\_abbr
+    \nodepart{two}   \underline{S\_abbr}
     \nodepart{three} Pop
   };
 
@@ -413,8 +414,8 @@
     anchor=north west, 
     below=0.6cm of statetitle.west, 
     anchor=west] (state) {
-    \underline{S\_name}%
-    \nodepart{two}   S\_abbr
+    S\_name%
+    \nodepart{two}   \underline{S\_abbr}
     \nodepart{three} Capital
   };
 
@@ -454,7 +455,7 @@
     below=0.6cm of worksattitle.west, 
     anchor=west] (worksat){ 
     \underline{B\_number}%
-    \nodepart{two}   E\_id
+    \nodepart{two}   \underline{E\_id}
     \nodepart{three} Work\_start\_date
   };
 
@@ -529,7 +530,7 @@
     below=0.6cm of servicetitle.west, 
     anchor=west] (service){ 
     \underline{B\_service}%
-    \nodepart{two}   B\_number
+    \nodepart{two}  \underline{B\_number}
   };
 
   \node [below=1.3cm of service.west, 
@@ -600,7 +601,7 @@
     below=0.6cm of servicetitle.west, 
     anchor=west] (service){ 
     \underline{B\_service}%
-    \nodepart{two}   B\_number
+    \nodepart{two}   \underline{B\_number}
   };
 
   
@@ -614,7 +615,7 @@
     below=0.6cm of worksattitle.west, 
     anchor=west] (worksat){ 
     \underline{B\_number}%
-    \nodepart{two}   E\_id
+    \nodepart{two}   \underline{E\_id}
     \nodepart{three} Work\_start\_date
   };
 
@@ -643,8 +644,8 @@
     anchor=north west, 
     below=0.6cm of statetitle.west, 
     anchor=west] (state) {
-    \underline{S\_name}%
-    \nodepart{two}   S\_abbr
+    S\_name%
+    \nodepart{two}   \underline{S\_abbr}
     \nodepart{three} Capital
 };
 
@@ -658,7 +659,7 @@
     below=0.6cm of citytitle.west, 
     anchor=west] (city){
     \underline{C\_name}%
-    \nodepart{two}   S\_abbr
+    \nodepart{two}   \underline{S\_abbr}
     \nodepart{three} Pop
   };
 

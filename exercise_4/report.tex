@@ -31,7 +31,7 @@
 \coursecode{5DV119}
 \title{Exercises, Chapter/Topic 4}
 \author{Lorenz Gerber ({\tt{dv15lgr@cs.umu.se}} {\tt{lozger03@student.umu.se}})}
-\date{2017-02-21}
+\date{2017-02-27}
 %\revisiondate{2016-01-18}
 \instructor{Jan Erik Moström / Michael Minock / Filip Allberg / Carl-Anton Anserud}
 
@@ -73,11 +73,14 @@
 \pagenumbering{arabic}
 
 \section{Introduction}
+The aim of this laboration was to obtain a relational database schema from an `Entity-Relationshiop' diagram. The description on pages 321--328 of the course book was followed. 
 
 \section{Mapping Step by Step}
 
 \subsection*{Mapping of Regular Entity Types}
+First, all regular entities were mapped into relations and a primary key was chosen from the candidate keys. The mapped entities are BRANCH, EMPLOYEE and STATE whith their respective simple attributes. Multivalued attributes will be added later. For STATE, the candidate key Abbreviation was chosen as `S\_abbr'.
 
+\vspace{0.3cm}
 \begin{tikzpicture}[relation/.style={rectangle split,
       rectangle split parts=#1,
       rectangle split part align=base,
@@ -133,9 +136,13 @@
   };
 
 \end{tikzpicture}
+\vspace{0.3cm}
+
 
 \subsection*{Step 2: Mapping of Weak Entity Types}
+In the second step, weak entities were mapped. This resulted in the relation CITY. The primary key for CITY was composed from the primary key of it's owner entity, STATE (Abbreviation as `S\_abbr'), and it's partial key `City Name' as `C\_name'.
 
+\vspace{0.3cm}
 \begin{tikzpicture}[relation/.style={rectangle split,
       rectangle split parts=#1,
       rectangle split part align=base,
@@ -162,9 +169,12 @@
   };
 
 \end{tikzpicture}
+\vspace{0.3cm}
 
 \subsection*{Step 3: Mapping of Binary 1:1 Relationship Types}
+Now all binary 1:1 relationships were mapped. First the relationship `Manages' was mapped. `MGR\_id' of BRANCH is the foreign key that refers to `E\_id', the primary key of EMPLOYEE. Further the attribute `MGR\_start\_date' was also added to the relation BRANCH. 
 
+\vspace{0.3cm}
 \begin{tikzpicture}[relation/.style={rectangle split, 
       rectangle split parts=#1, 
       rectangle split part align=base, 
@@ -211,10 +221,11 @@
   -| ($(employee.one south) + (0,0)$);
 
 \end{tikzpicture}
+\vspace{0.3cm}
 
+Then the relationship `has\_capital' was mapped. `Capital' is the foreign key of STATE that refers to the primary key of CITY, `C\_name'.  
 
-
-
+\vspace{0.3cm}
 \begin{tikzpicture}[relation/.style={rectangle split, 
       rectangle split parts=#1, 
       rectangle split part align=base, 
@@ -261,12 +272,13 @@
   -| ($(city.one south) + (0,0)$);
 
 \end{tikzpicture}
-
-
+\vspace{0.3cm}
 
 
 \subsection*{Step 4: Mapping of Binary 1:N Relationship Types}
+Now the binary 1:N relationships were mapped. First for the relationship `located\_in', the primary key `C\_name' and `S\_abbr' of the CITY relation was added as foreign key to the BRANCH relation.  
 
+\vspace{0.3cm}
 \begin{tikzpicture}[relation/.style={rectangle split, 
       rectangle split parts=#1, 
       rectangle split part align=base, 
@@ -321,11 +333,13 @@
   -| ($(city.two south) + (0,0)$);
 
 \end{tikzpicture}
+\vspace{0.3cm}
 
 
+For the `lives\_in' relationship, `C\_name' and `S\_abbr', the primary key form the CITY relation was added as foreign key to the EMPLOYEE relation.   
 
 
-
+\vspace{0.3cm}
 \begin{tikzpicture}[relation/.style={rectangle split, 
       rectangle split parts=#1, 
       rectangle split part align=base, 
@@ -377,10 +391,12 @@
 
 
 \end{tikzpicture}
+\vspace{0.3cm}
+
+Finally, the `located\_in' relationship was mapped from CITY to STATE. Each city is in exactly one state. The `has\_capital' relationship added in step three is also visible in the graph below. 
 
 
-
-
+\vspace{0.3cm}
 \begin{tikzpicture}[relation/.style={rectangle split, 
       rectangle split parts=#1, 
       rectangle split part align=base, 
@@ -428,12 +444,19 @@
   |- ($(state.two south) + (1.0,-0.2)$) 
   -| ($(state.two south) + (0,0)$);
 
-\end{tikzpicture}
+  \draw[-latex] (city.one south) -- ++(0,-0.4) 
+  -| ($(city.one south) + (4.5,-0.4)$) 
+  |- ($(state.three south) + (1.0,-0.4)$) 
+  -| ($(state.three south) + (0,0)$);
 
+\end{tikzpicture}
+\vspace{0.3cm}
 
 
 \subsection*{Step 5: Mapping of Binary M:N Relationship Types}
+To map the binary M:N relationships, a new relation `WORKS\_AT' was created. It is composed of the foreign keys `B\_number', which is the primary key of the BRANCH relation, and the foreign key `E\_id', which is the primary key of the EMPLOYEE relation. Further the attribute `Work\_start\_date' was included. 
 
+\vspace{0.3cm}
 \begin{tikzpicture}[relation/.style={rectangle split, 
       rectangle split parts=#1, 
       rectangle split part align=base, 
@@ -504,11 +527,14 @@
 
   
 \end{tikzpicture}
+\vspace{0.3cm}
 
 
 
 \subsection*{Step 6: Mapping of Multivalued Attributes}
+As last step for the current ER-diagram, a new relation was created for the multivalued attribute SERVICE with the foreign key `B\_number', the primary key of the relation BRANCH. Hence a branch can have many different services.  
 
+\vspace{0.3cm}
 \begin{tikzpicture}[relation/.style={rectangle split, 
       rectangle split parts=#1, 
       rectangle split part align=base, 
@@ -556,14 +582,18 @@
   -| ($(branch.one south) + (0,0)$);
 
 \end{tikzpicture}
-
+\vspace{0.3cm}
 
 \subsection*{Step 7: Mapping of N-ary Relationship Types}
+The ER-diagram of the present exercise does not have any N-ary relationsships, hence, there was nothing to do for step 7. 
 
 
 
 \section{Final Results}
 
+Finally, the found relations and keys from above were condensed into one combined representation. 
+
+\vspace{0.3cm}
 \begin{tikzpicture}[relation/.style={rectangle split, 
       rectangle split parts=#1, 
       rectangle split part align=base, 
@@ -684,7 +714,7 @@
   -| ($(branch.one south) + (0,0)$);
 
     \draw[-latex] (worksat.two south) -- ++(0.0,-0.4) 
-  -| ($(worksat.two south) + (6,-0.40)$) 
+  -| ($(worksat.two south) + (4,-0.40)$) 
   |- ($(employee.one south) + (0,-0.40)$) 
   -| ($(employee.one south) + (-0.25,0)$);
 
@@ -714,15 +744,8 @@
   |- ($(city.one south) + (0.25,-1.0)$) 
   -| ($(city.one south) + (0.25,0)$);
 
-
-
-
-
 \end{tikzpicture}
-
-
-
-
+\vspace{0.3cm}
 
 
 \addcontentsline{toc}{section}{\refname}

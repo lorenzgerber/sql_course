@@ -39,8 +39,8 @@ WHERE Date IN ('2016-11-12');
 SELECT ' Query 5 ';
 SELECT DISTINCT Code, City, Country
 FROM Airport
-INNER JOIN Flight ON (Airport.Code=Flight.Origin)
-INNER JOIN Ticket ON (Flight.FlightNumber=Ticket.FlightNumber AND Flight.Airline=Ticket.Airline)
+INNER JOIN Flight ON (Airport.Code=Flight.Origin, Airport.Code=Flight.Destination)
+INNER JOIN Ticket ON (Flight.FlightNumber=Ticket.FlightNumber)
 WHERE (Ticket.Cost>4000) AND (Ticket.Number<200);
 
 -- Find the names of those airlines which have a flight whose destination is an airport which
@@ -68,7 +68,7 @@ SELECT DISTINCT Code
 FROM Airport
 INNER JOIN Flight ON (Airport.Code=Flight.Origin)
 INNER JOIN Schedule ON (Flight.FlightNumber=Schedule.FlightNumber)
-WHERE (Airport.City='Berlin');
+WHERE (Airport.City='Berlin') AND (Country='Germany');
 
 -- Find the names of those airlines with either the string “Air” or else the string “Luft”
 -- (both case insensitive) in their names.

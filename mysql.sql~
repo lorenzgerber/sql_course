@@ -40,7 +40,7 @@ SELECT ' Query 5 ';
 SELECT DISTINCT Code, City, Country
 FROM Airport
 INNER JOIN Flight ON (Airport.Code=Flight.Origin)
-INNER JOIN Ticket ON (Flight.FlightNumber=Ticket.FlightNumber)
+INNER JOIN Ticket ON (Flight.FlightNumber=Ticket.FlightNumber AND Flight.Airline=Ticket.Airline)
 WHERE (Ticket.Cost>4000) AND (Ticket.Number<200);
 
 -- Find the names of those airlines which have a flight whose destination is an airport which
@@ -62,7 +62,7 @@ WHERE (Airport.Country='France') OR (Airport.Country='Germany');
 SELECT ' Query 7 ';
 SELECT DISTINCT Code
 FROM Airport
-WHERE (City='Berlin')
+WHERE (City='Berlin') AND (Country='Germany')
 EXCEPT
 SELECT DISTINCT Code
 FROM Airport
@@ -82,7 +82,7 @@ WHERE UPPER(Name) LIKE UPPER ('%air%') OR UPPER(Name) LIKE UPPER('%luft%');
 -- not necessary to pattern match on “Scandinavian”)
 SELECT ' Query 9 ';
 UPDATE Ticket
-SET Cost = Cost * 1.2
+SET Cost = Cost * 0.8
 WHERE (Airline = 'SK') AND (Date >= '2016-11-01' OR Date <= '2016-11-20');
 
 -- Find the flights for the airline with code SK which are scheduled on 2016-11-12 with a

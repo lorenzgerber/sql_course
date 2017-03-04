@@ -1,7 +1,7 @@
 -- 1. Find the airport with the greatest latitude.
 -- In the case of a tie, list all such airports.
 SELECT ' Query 1 ';
-SELECT City 
+SELECT Code, Latitude
 FROM Airport
 WHERE Latitude IN (
       SELECT MAX(Latitude)

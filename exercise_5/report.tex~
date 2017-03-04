@@ -115,21 +115,37 @@ None of the above relations can be removed.
 Three candidate keys for R were found: $\{B,D,H\}, \{D,E,H\}, \{D,F,H\}$
 
 \subsection*{d) losless extension}
+For the losless extension, $H$ needs to be included in some relation. As proposed in c), $H$ is best added to a candidate key. Hence a lossless representation of $\langle R,\mathcal{F}_1 \rangle$ is: \\
+$R_0\{A, C, G\}: \fdep{A}{C},\ \fdep{A}{G},\ \fdep{G}{A}$\\
+$R_1\{A, B, F\}: \fdep{B}{F},\ \fdep{AF}{B}$\\
+$R_2\{A, D, E, F\}: \fdep{DE}{A},\ \fdep{DE}{F},\ \fdep{F}{E}$\\
+$R_3\{B, D, H\}$\\
+
 
 \subsection*{e) which relations not BCNF}
+In a BCNF relational scheme, each functional dependency has to fullfill the following two conditions:
+\begin{enumerate}
+\item $\fdep{X}{Y}$ is a trivial FD $(Y \subseteq X)$
+\item $X$ is a super key for the schema $R$
+Checking all FD's in d) for those conditions reveals that $R\{A,B,F\}$ is not in BCNF as $B$ is not a super key of $R\{A,B,F\}$. The two above mentioned conditions hold for all the other FDs in all other relations. 
+
+\end{enumerate}
 
 \subsection*{f) show that there is no lossless, dependency-preserving, acyclic BCNF possible}
+This can be proven by showing that there is no dependency-preserving decomposition of the schema $R{A,F,B},\ \fdep{AF}{B},\ \fdep{B}{F}$ which is in 3NF, computed from the canonical cover. According to the two rules for BCNF decomposition stated in e), $\fdep{B}{F}$ is neither super key nor is it a trivial dependency. So, the only possible lossless decomposition of this schema  is $fdep{A}{B}$ and $\fdep{B}{F}$, but then the dependency $\fdep{AF}{B}$ is lost.  
 
-\subsection*{f) show that 3NF normalization from d) is acyclic/fully independent}
+
+\subsection*{g) show that the 3NF normalization from d) is acyclic/fully independent}
 
   
 \section*{Problem 2 - BCNF Normalization}
 Yes can. not cyclic.
+\Tree [.{$ABCDEF$\\$\fdep{DE}{F}$} [.{$DEF$\\$\fdep{DE}{F}$} ] [.{$ABCDE$\\$\fdep{CD}{E}$}  [.{$ABCD$\\$\fdep{AB}{C}$} [.{$ABC$\\$\fdep{AB}{C}$} ] [.{$ABD$} ] ] [.{$CDE$\\$\fdep{CD}{E}$} ] ] ]
 
 \section*{Problem 3 - BCNF Normalization}
 Yes can, but cyclic.
 
-\Tree [.{$ABCDE$\\$\fdep{A}{B}$} [.NP LaTeX ] [.VP [.V is ] [.NP fun ] ] ]
+
 
 \addcontentsline{toc}{section}{\refname}
 %\bibliography{references}

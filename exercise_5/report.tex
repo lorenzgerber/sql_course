@@ -105,7 +105,7 @@ Hence, $\mathcal{F}_{min}=\{\fdep{A}{C},\ \fdep{A}{G},\ \fdep{AF}{B},\ \fdep{B}{
 \item define Schemes\\
   $R_0\{A, C, G\}: \fdep{A}{C},\ \fdep{A}{G},\ \fdep{G}{A}$\\
   $R_1\{A, B, F\}: \fdep{B}{F},\ \fdep{AF}{B}$\\
-  $R_2\{A, D, E, F\}: \fdep{DE}{A},\ \fdep{DE}{F},\ \fdep{F}{E}$\\
+  $R_2\{A, D, E, F\}: \fdep{DE}{A},\ \fdep{DE}{F},\ \fdep{DF}{E}$\\
   
 \item test removing relations\\
 None of the above relations can be removed. 
@@ -115,22 +115,61 @@ None of the above relations can be removed.
 Three candidate keys for R were found: $\{B,D,H\}, \{D,E,H\}, \{D,F,H\}$
 
 \subsection*{d) losless extension}
+For the losless extension, $H$ needs to be included in some relation. As proposed in c), $H$ is best added to a candidate key. Hence a lossless representation of $\langle R,\mathcal{F}_1 \rangle$ is: \\
+$R_0\{A, C, G\}: \fdep{A}{C},\ \fdep{A}{G},\ \fdep{G}{A}$\\
+$R_1\{A, B, F\}: \fdep{B}{F},\ \fdep{AF}{B}$\\
+$R_2\{A, D, E, F\}: \fdep{DE}{A},\ \fdep{DE}{F},\ \fdep{DF}{E}$\\
+$R_3\{B, D, H\}$\\
+
 
 \subsection*{e) which relations not BCNF}
+In a BCNF relational scheme, each functional dependency has to fullfill the following two conditions:
+\begin{enumerate}
+\item $\fdep{X}{Y}$ is a trivial FD $(Y \subseteq X)$
+\item $X$ is a super key for the schema $R$
+Checking all FD's in d) for those conditions reveals that $R\{A,B,F\}$ is not in BCNF as $B$ is not a super key of $R\{A,B,F\}$. The two above mentioned conditions hold for all the other FDs in all other relations. 
+
+\end{enumerate}
 
 \subsection*{f) show that there is no lossless, dependency-preserving, acyclic BCNF possible}
+This can be proven by showing that there is no dependency-preserving decomposition of the schema $\langle R\{A,F,B\},\ \fdep{AF}{B},\ \fdep{B}{F} \rangle$ which is in 3NF, computed from the canonical cover. According to the two rules for BCNF decomposition stated in e), $\fdep{B}{F}$ is neither super key nor is it a trivial dependency. So, the only possible lossless decomposition of this schema  is $fdep{A}{B}$ and $\fdep{B}{F}$, but then the dependency $\fdep{AF}{B}$ is lost.  
 
-\subsection*{f) show that 3NF normalization from d) is acyclic/fully independent}
+
+\subsection*{g) Determine whether the 3NF normalization from d) is acyclic/fully independent}
+No it is not as there is a bottom up join tree construction that represents the full relation $R$ while still not all FD's are used:\\
+\Tree [.{$ABCDEF$}\\$\fdep{A}{CG}$ [.{$ACG$\\$\fdep{A}{CG}$} ] [.{$ABDEFH$\\$\fdep{AF}{B}$} [.{$ABF$\\$\fdep{AF}{B}$} ] [.{$ABDEFH$\\$\fdep{DE}{AF}$} [.{$ADEF$\\$\fdep{DE}{AF}$} ] [.{$BDEFH$\\$\fdep{DF}{E}$} [.{$DFE$\\$\fdep{DF}{E}$} ] [.{$BDFH$\\$\fdep{B}{F}$} [.{$BF$\\$\fdep{B}{F}$} ][.{$BDH $} ] ] ] ] ] ]
+
 
   
 \section*{Problem 2 - BCNF Normalization}
-Yes can. not cyclic.
-\Tree [.{$ABCDEF$\\$\fdep{DE}{F}$} [.{$DEF$\\$\fdep{DE}{F}$} ] [.{$ABCDE$\\$\fdep{CD}{E}$}  [.{$ABCD$\\$\fdep{AB}{C}$} [.{$ABC$\\$\fdep{AB}{C}$} ] [.{$ABD$} ] ] [.{$CDE$\\$\fdep{CD}{E}$} ] ] ]
+First obtain a canonical cover for $\langle R_2[ABCDEF], \mathcal{F}_2 \{\fdep{AB}{C}, \fdep{CD}{E} \fdep{DE}{F}\} \rangel$.
+\begin{enumerate}
+\item Decompose each FD into RHS simple form. This is already the case.\\
+\item LHS-reduce each FD. The left-hand side can not be reduced more.
+\item Test each remaining FD for redundancy of the resulting set of FDs, removing the ones which are not needed to preserve the closure. There is no redundancy available, hence the given FDs are already a canonical cover if $R_2$.
+\end{enumerate}
+
+The minimum candidate key is $\{A,B,D\}$. Now we check all FD'S if they are in BCNF according to the two conditions stated in problem 1e). This is also the case so we can state the BCNF decomposition as follows:\\
+$R_0\{A, B, C\}: \fdep{AB}{C}$\\
+$R_1\{C, D, E\}: \fdep{CD}{E}$\\
+$R_2\{D, E, F\}: \fdep{DE}{F}$\\
+$R_3\{A, B, D\}$\\
+
+It can be concluded that the BCNF decomposition fulfills the lossless and dependecy-preserving constraint. Finally, it is has to be checked by constructing a join tree from bottom up whether the BCNF decomposition is acyclic: 
+
+\Tree [.{$ABCDEF$\\$\fdep{DE}{F}$} [.{$DEF$\\$\fdep{DE}{F}$} ] [.{$ABCDE$\\$\fdep{CD}{E}$} [.{$CDE$\\$\fdep{CD}{E}$} ] [.{$ABCD$\\$\fdep{AB}{C}$} [.{$ABC$\\$\fdep{AB}{C}$} ] [.{$ABD$} ] ]  ] ]
+
+The given database schema is in BCNF, lossless, dependecy-preserving and acyclic. 
 
 \section*{Problem 3 - BCNF Normalization}
-Yes can, but cyclic.
+First obtain a canonical cover for $\langle R_3[ABCDEF], \mathcal{F}_3 \{\fdep{AB}{C}, \fdep{CD}{E} \fdep{DE}{A}\} \rangel$.
+\begin{enumerate}
+\item Decompose each FD into RHS simple form. This is already the case.
+\item LHS-reduce each FD. The left-hand side can not be reduced more.
+\item Test each remaining FD for redundancy of the resulting set of FDs, removing the ones which are not needed to preserve the closure. There is no redundancy available, hence the given FDs are already a canonical cover of $R_3$.
+\end{enumerate}
 
-
+Three minimum candidate keys could be found, $\{A,B,D,F\}$ was chosen. Now the FD's were checked to be in BCNF according to the two conditions stated in problem 1e). 
 
 \addcontentsline{toc}{section}{\refname}
 %\bibliography{references}

@@ -1,0 +1,137 @@
+\documentclass[a4paper,11pt,twoside]{article}
+%\documentclass[a4paper,11pt,twoside,se]{article}
+
+\usepackage{UmUStudentReport}
+\usepackage{verbatim}   % Multi-line comments using \begin{comment}
+\usepackage{courier}    % Nicer fonts are used. (not necessary)
+\usepackage{pslatex}    % Also nicer fonts. (not necessary)
+\usepackage[pdftex]{graphicx}   % allows including pdf figures
+\usepackage{listings}
+\usepackage{pgf-umlcd}
+\usepackage{blindtext}
+\usepackage{enumitem}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{tikz-qtree}
+\usetikzlibrary{shapes, positioning, calc}
+\tikzset{every tree node/.style={align=center,anchor=north}}
+\tikzset{level distance=40pt, sibling distance=10pt}
+\colorlet{lightgray}{gray!20}
+%\usepackage{mathtools}
+
+%\usepackage{lmodern}   % Optional fonts. (not necessary)
+%\usepackage{tabularx}
+%\usepackage{microtype} % Provides some typographic improvements over default settings
+%\usepackage{placeins}  % For aligning images with \FloatBarrier
+%\usepackage{booktabs}  % For nice-looking tables
+%\usepackage{titlesec}  % More granular control of sections.
+
+% SPECIAL MACROS
+% ==============
+\newcommand{\fdep}[2]{{\mathit{#1}} \rightarrow {\mathit{#2}}}
+
+
+
+% DOCUMENT INFO
+% =============
+\department{Department of Computing Science}
+\coursename{Introduction to Database Managment 7.5 p}
+\coursecode{5DV119}
+\title{Exercises, Chapter/Topic 5}
+\author{Lorenz Gerber ({\tt{dv15lgr@cs.umu.se}} {\tt{lozger03@student.umu.se}})}
+\date{2017-03-07}
+%\revisiondate{2016-01-18}
+\instructor{Jan Erik Moström / Michael Minock / Filip Allberg / Carl-Anton Anserud}
+
+
+% DOCUMENT SETTINGS
+% =================
+\bibliographystyle{plain}
+%\bibliographystyle{ieee}
+\pagestyle{fancy}
+\raggedbottom
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+%\graphicspath{{images/}}   %Path for images
+
+\usepackage{float}
+\floatstyle{ruled}
+\newfloat{listing}{thp}{lop}
+\floatname{listing}{Listing}
+
+
+
+% DEFINES
+% =======
+%\newcommand{\mycommand}{<latex code>}
+%\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+
+% DOCUMENT
+% ========
+\begin{document}
+\lstset{language=C}
+\maketitle
+\thispagestyle{empty}
+%\newpage
+%\tableofcontents
+\thispagestyle{empty}
+\newpage
+
+\clearpage
+\pagenumbering{arabic}
+
+\section*{Problem 1}
+\subsection*{a) Canonical Cover}
+The given relation and functional dependencies are: $R[ABCDEFGH]$, and\\
+$\mathcal{F}_{1}=\{\fdep{A}{CG},\ \fdep{ACF}{B},\ \fdep{B}{F},\ \fdep{DE}{A},\ \fdep{DEG}{BF},\ \fdep{DF}{E},\ \fdep{G}{A}\}$
+
+
+\begin{enumerate}
+\item Decompose each FD into RHS simple form: \\
+  $\{\fdep{A}{C},\ \fdep{A}{G},\ \fdep{ACF}{B},\ \fdep{B}{F},\ \fdep{DE}{A},\ \fdep{DEG}{B},\ \fdep{DEG}{F},\ \fdep{DF}{E},\ \fdep{G}{A}\}$\\
+\item LHS-reduce each FD
+  $\{\fdep{A}{C},\ \fdep{A}{G},\ \fdep{ACF}{B},\ \fdep{B}{F},\ \fdep{DE}{A},\ \fdep{DEG}{B},\ \fdep{DEG}{F},\ \fdep{DF}{E},\ \fdep{G}{A}\}$\\
+  $= \{\fdep{A}{C},\ \fdep{A}{G},\ \fdep{AF}{B},\ \fdep{B}{F},\ \fdep{DE}{A},\ \fdep{DE}{B},\ \fdep{DE}{F},\ \fdep{DF}{E},\ \fdep{G}{A}\}$\\
+\item Test each remaining FD for redundancy of the resulting set of FDs, removing the ones which are not needed to preserve the closure.
+  $ \{\fdep{A}{C},\ \fdep{A}{G},\ \fdep{AF}{B},\ \fdep{B}{F},\ \fdep{DE}{A},\ \fdep{DE}{F},\ \fdep{DF}{E},\ \fdep{G}{A}\}$\\
+\end{enumerate}
+
+Hence, $\mathcal{F}_{min}=\{\fdep{A}{C},\ \fdep{A}{G},\ \fdep{AF}{B},\ \fdep{B}{F},\ \fdep{DE}{A},\ \fdep{DE}{F},\ \fdep{DF}{E},\ \fdep{G}{A}\}$  
+
+\subsection*{b) find dependency-preserving 3NF representation}
+\begin{enumerate}
+\item use the canonical cover from a)
+\item define Schemes\\
+  $R_0\{A, C, G\}: \fdep{A}{C},\ \fdep{A}{G},\ \fdep{G}{A}$\\
+  $R_1\{A, B, F\}: \fdep{B}{F},\ \fdep{AF}{B}$\\
+  $R_2\{A, D, E, F\}: \fdep{DE}{A},\ \fdep{DE}{F},\ \fdep{F}{E}$\\
+  
+\item test removing relations\\
+None of the above relations can be removed. 
+\end{enumerate}
+
+\subsection*{c) candidate keys}
+Three candidate keys for R were found: $\{B,D,H\}, \{D,E,H\}, \{D,F,H\}$
+
+\subsection*{d) losless extension}
+
+\subsection*{e) which relations not BCNF}
+
+\subsection*{f) show that there is no lossless, dependency-preserving, acyclic BCNF possible}
+
+\subsection*{f) show that 3NF normalization from d) is acyclic/fully independent}
+
+  
+\section*{Problem 2 - BCNF Normalization}
+Yes can. not cyclic.
+
+\section*{Problem 3 - BCNF Normalization}
+Yes can, but cyclic.
+
+\Tree [.{$ABCDE$\\$\fdep{A}{B}$} [.NP LaTeX ] [.VP [.V is ] [.NP fun ] ] ]
+
+\addcontentsline{toc}{section}{\refname}
+%\bibliography{references}
+
+\end{document}

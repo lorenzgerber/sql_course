@@ -154,7 +154,7 @@ Finally, it was determined whether the decomposition is acyclic by constructing 
 All sub-relations where needed to reconstruct the full relation in a bottom up join tree, hence the given database schema is in BCNF, lossless, dependecy-preserving and acyclic. 
 
 \section*{Problem 3 - BCNF Normalization}
-Minimum candiate keys were determined, three where found and $\{A,B,D,F\}$ was chosen. Now BCNF decomposition of the original relation was attempted by building a join tree and adhering the to conditions stated in problem 1e). This was however not possible. Having just three FDs it was here feasibly to exhaustively probe all possible decompositions but none of them yielded a valid, acyclic BCNF decomposition.
+Minimum candiate keys were determined, three where found and $\{A,B,D,F\}$ was chosen. Now, BCNF decomposition of the original relation $R_3$ was attempted by building a join tree and adhering to conditions stated in problem 1e). This however proved to be impossible. Having just three FDs it was here feasibly to exhaustively probe all possible decompositions but none of them yielded a valid, acyclic BCNF decomposition.
 The problem can be summarized as follows: As the RHS of each FD is part of the LHS for another FD, there can not exist an order of building a valid join tree using all FDs.
 
 \addcontentsline{toc}{section}{\refname}

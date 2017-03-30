@@ -1,7 +1,7 @@
--- 1. Find the airport with the greatest latitude.
+  -- 1. Find the airport with the greatest latitude.
 -- In the case of a tie, list all such airports.
 SELECT ' Query 1 ';
-SELECT Code, Latitude
+SELECT *
 FROM Airport
 WHERE Latitude IN (
       SELECT MAX(Latitude)
@@ -47,15 +47,12 @@ WHERE Code IN (
 -- airport is in a different country than the airport of departure.
 -- Exclude airports with no departures.
 SELECT ' Query 4 ';
-SELECT City
-FROM Airport
-JOIN Flight ON (Origin=Code)
-WHERE Country NOT IN (
-      SELECT Country
-      FROM Airport
-      JOIN Flight ON (Destination=Code)
-      );
-
+SELECT Distinct Origin, AirportOrigin.City, AirportOrigin.Country, AirportOrigin.Latitude, AirportOrigin.Longitude
+FROM Flight AS Flight1 JOIN Airport AS AirportOrigin ON (Flight1.Origin=AirportOrigin.Code) JOIN Airport AS AirportDestination ON (Flight1.Destination=AirportDestination.Code)
+WHERE (AirportOrigin.Country<>AirportDestination.Country) AND (Flight1.Origin NOT IN
+        (SELECT Flight2.Origin
+         FROM Flight AS Flight2 JOIN Airport AS AirportOriginSub ON (Flight2.Origin=AirportOriginSub.Code) JOIN Airport AS AirportDestinationSub ON (Flight2.Destination=AirportDestinationSub.Code)
+         WHERE (AirportOriginSub.Country=AirportDestinationSub.Country)))
       
 -- 5. Find the names of those airlines which, for every airport
 -- in Germany with latitude less than 54, except possibly BER,

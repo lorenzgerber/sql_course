@@ -120,17 +120,17 @@ GROUP BY Code));
 -- with no ticket sales and order from highest to lowest. (Hint: The
 -- SQL directive ORDER BY n will order the result based upon the nth column.)
 SELECT ' Query 9 ';
-SELECT Name, SUM(Cost)
-FROM Airline
-JOIN Ticket ON (Abbreviation=Airline)
-NATURAL JOIN Schedule
-WHERE (Date > "2016-10-31") AND (Date < "2016-12-01") 
-GROUP BY Airline;
+SELECT Schedule.Airline, COALESCE(SUM(Ticket.Cost), 0) AS TOTAL_TICKET_COST
+FROM Schedule LEFT OUTER JOIN Ticket ON
+((Schedule.Airline=Ticket.Airline) AND (Schedule.FlightNumber=Ticket.FlightNumber) AND (Schedule.Date=Ticket.Date))
+WHERE (Schedule.Date LIKE '2016-11-%')
+GROUP BY Schedule.Airline
+ORDER BY 2 DESC;
 
 -- 10. Find the codes of those airports which are the origin for
 -- flights to at least three distinct airports in France.
 SELECT ' Query 10 ';
-SELECT Origin, Count(Distinct Destination) AS "Destinations in France"
+SELECT Origin
 FROM Flight
 JOIN Airport ON (Destination=Code)
 AND (Country = "France")
@@ -152,13 +152,11 @@ WHERE Origin IN ('TXL') AND
 
 -- 12. Find the codes of those airports located in Berlin,
 -- Germany which do not have any scheduled departures.
-SELECT ' Query 12 ';
 SELECT DISTINCT Code
 FROM Airport
-WHERE (City='Berlin') AND
+WHERE (City='Berlin') AND (Country='Germany') AND
 ( NOT ( Code IN
 (SELECT DISTINCT Code
 FROM Airport
-INNER JOIN Flight ON (Airport.Code=Flight.Origin)
-INNER JOIN Schedule ON (Flight.FlightNumber=Schedule.FlightNumber)
+JOIN Flight ON (Airport.Code=Flight.Origin)
 WHERE (Airport.City='Berlin'))));

@@ -1,7 +1,7 @@
 -- 1. Find the airport with the greatest latitude.
 -- In the case of a tie, list all such airports.
 SELECT ' Query 1 ';
-SELECT Code, Latitude 
+SELECT *
 FROM Airport
 WHERE Latitude IN (
       SELECT MAX(Latitude)
@@ -47,15 +47,12 @@ WHERE Code IN (
 -- airport is in a different country than the airport of departure.
 -- Exclude airports with no departures.
 SELECT ' Query 4 ';
-SELECT City
-FROM Airport
-JOIN Flight ON (Origin=Code)
-WHERE Country NOT IN (
-      SELECT Country
-      FROM Airport
-      JOIN Flight ON (Destination=Code)
-      );
-
+SELECT Distinct Origin, AirportOrigin.City, AirportOrigin.Country, AirportOrigin.Latitude, AirportOrigin.Longitude
+FROM Flight AS Flight1 JOIN Airport AS AirportOrigin ON (Flight1.Origin=AirportOrigin.Code) JOIN Airport AS AirportDestination ON (Flight1.Destination=AirportDestination.Code)
+WHERE (AirportOrigin.Country<>AirportDestination.Country) AND (Flight1.Origin NOT IN
+        (SELECT Flight2.Origin
+         FROM Flight AS Flight2 JOIN Airport AS AirportOriginSub ON (Flight2.Origin=AirportOriginSub.Code) JOIN Airport AS AirportDestinationSub ON (Flight2.Destination=AirportDestinationSub.Code)
+         WHERE (AirportOriginSub.Country=AirportDestinationSub.Country)))
       
 -- 5. Find the names of those airlines which, for every airport
 -- in Germany with latitude less than 54, except possibly BER,
@@ -122,21 +119,23 @@ GROUP BY Code));
 -- departing in the month of November 2016. Report 0 for those airlines
 -- with no ticket sales and order from highest to lowest. (Hint: The
 -- SQL directive ORDER BY n will order the result based upon the nth column.)
+-- **************************************************************************
+-- postgresql version needs a variable type cast in the WHERE clause
 SELECT ' Query 9 ';
-SELECT Name, SUM(Cost) AS "Ticket Sales in Nov 2016"
-FROM Airline
-JOIN Ticket ON (Abbreviation=Airline)
-NATURAL JOIN Schedule
-WHERE (Date > '2016-10-31') AND (Date < '2016-12-01') 
-GROUP BY Name;
+SELECT Schedule.Airline, COALESCE(SUM(Ticket.Cost), 0) AS TOTAL_TICKET_COST
+FROM Schedule LEFT OUTER JOIN Ticket ON
+((Schedule.Airline=Ticket.Airline) AND (Schedule.FlightNumber=Ticket.FlightNumber) AND (Schedule.Date=Ticket.Date))
+WHERE (Schedule.Date::text LIKE '2016-11-%')
+GROUP BY Schedule.Airline
+ORDER BY 2 DESC;
 
 -- 10. Find the codes of those airports which are the origin for
 -- flights to at least three distinct airports in France.
 SELECT ' Query 10 ';
-SELECT Origin, Count(Distinct Destination) AS "Destinations in France"
+SELECT Origin
 FROM Flight
 JOIN Airport ON (Destination=Code)
-AND (Country = 'France')
+AND (Country = "France")
 GROUP BY Origin
 HAVING (Count(Distinct Destination) >= 3);
 
@@ -155,13 +154,11 @@ WHERE Origin IN ('TXL') AND
 
 -- 12. Find the codes of those airports located in Berlin,
 -- Germany which do not have any scheduled departures.
-SELECT ' Query 12 ';
 SELECT DISTINCT Code
 FROM Airport
-WHERE (City='Berlin') AND
+WHERE (City='Berlin') AND (Country='Germany') AND
 ( NOT ( Code IN
 (SELECT DISTINCT Code
 FROM Airport
-INNER JOIN Flight ON (Airport.Code=Flight.Origin)
-INNER JOIN Schedule ON (Flight.FlightNumber=Schedule.FlightNumber)
+JOIN Flight ON (Airport.Code=Flight.Origin)
 WHERE (Airport.City='Berlin'))));

@@ -1,4 +1,4 @@
-  -- 1. Find the airport with the greatest latitude.
+-- 1. Find the airport with the greatest latitude.
 -- In the case of a tie, list all such airports.
 SELECT ' Query 1 ';
 SELECT *
@@ -70,7 +70,7 @@ WHERE NOT EXISTS (
 	       	(SELECT Origin
 		FROM Flight
 		JOIN Airport ON (Code=Origin)
-		WHERE (Latitude < 54) AND (Country = "Germany") OR (Origin = "BER")
+		WHERE (Latitude < 54) AND (Country = 'Germany') OR (Origin = 'BER')
 		)
 		);
 
@@ -119,6 +119,8 @@ GROUP BY Code));
 -- departing in the month of November 2016. Report 0 for those airlines
 -- with no ticket sales and order from highest to lowest. (Hint: The
 -- SQL directive ORDER BY n will order the result based upon the nth column.)
+-- **************************************************************************
+-- postgresql version needs a variable type cast in the WHERE clause
 SELECT ' Query 9 ';
 SELECT Schedule.Airline, COALESCE(SUM(Ticket.Cost), 0) AS TOTAL_TICKET_COST
 FROM Schedule LEFT OUTER JOIN Ticket ON

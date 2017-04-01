@@ -52,7 +52,7 @@ FROM Flight AS Flight1 JOIN Airport AS AirportOrigin ON (Flight1.Origin=AirportO
 WHERE (AirportOrigin.Country<>AirportDestination.Country) AND (Flight1.Origin NOT IN
         (SELECT Flight2.Origin
          FROM Flight AS Flight2 JOIN Airport AS AirportOriginSub ON (Flight2.Origin=AirportOriginSub.Code) JOIN Airport AS AirportDestinationSub ON (Flight2.Destination=AirportDestinationSub.Code)
-         WHERE (AirportOriginSub.Country=AirportDestinationSub.Country)))
+         WHERE (AirportOriginSub.Country=AirportDestinationSub.Country)));
       
 -- 5. Find the names of those airlines which, for every airport
 -- in Germany with latitude less than 54, except possibly BER,
@@ -135,7 +135,7 @@ SELECT ' Query 10 ';
 SELECT Origin
 FROM Flight
 JOIN Airport ON (Destination=Code)
-AND (Country = "France")
+AND (Country = 'France')
 GROUP BY Origin
 HAVING (Count(Distinct Destination) >= 3);
 
